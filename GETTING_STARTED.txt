@@ -1,0 +1,9 @@
+TeristaSpace - Getting Started Guide
+
+1. Upload all files to GitHub
+2. Enable GitHub Actions in repository settings
+3. Edit any file and commit to trigger build
+4. Go to Actions tab and download APK
+5. Install on Android device
+
+For support, check GitHub Actions logs.
