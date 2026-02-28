@@ -20,22 +20,32 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v3
       with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        gradle-version: 8.7
+
+    - name: Make gradlew executable (if exists)
+      run: |
+        if [ -f gradlew ]; then
+          chmod +x gradlew
+        fi
 
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: |
+        if [ -f gradlew ]; then
+          ./gradlew assembleDebug
+        else
+          gradle assembleDebug
+        fi
 
     - name: Build Release APK
-      run: ./gradlew assembleRelease
+      run: |
+        if [ -f gradlew ]; then
+          ./gradlew assembleRelease
+        else
+          gradle assembleRelease
+        fi
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
