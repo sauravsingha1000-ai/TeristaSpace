@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # ADD THIS - prevents infinite hanging
 
     steps:
     - uses: actions/checkout@v4
@@ -19,6 +20,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    # ADD THIS STEP - Setup Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    # ADD THIS STEP - Accept licenses
+    - name: Accept Android licenses
+      run: yes | sdkmanager --licenses || true
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -34,10 +43,16 @@ jobs:
           ${{ runner.os }}-gradle-
 
     - name: Build Debug APK
+      timeout-minutes: 15  # ADD THIS
       run: ./gradlew assembleDebug --no-daemon --stacktrace
+      env:
+        GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"  # ADD THIS
 
     - name: Build Release APK
+      timeout-minutes: 15  # ADD THIS
       run: ./gradlew assembleRelease --no-daemon --stacktrace
+      env:
+        GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false"  # ADD THIS
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
