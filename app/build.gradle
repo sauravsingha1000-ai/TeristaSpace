@@ -64,7 +64,10 @@ dependencies {
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
     implementation 'androidx.compose.material:material-icons-extended'
-//    implementation 'androidx.core:core-virtualdevice:1.0.0-alpha01'
+    
+    // ADD THIS LINE - Required for Theme.Material3.Dark.NoActionBar
+    implementation 'com.google.android.material:material:1.12.0'
+    
     implementation 'androidx.enterprise:enterprise-feedback:1.1.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4'
@@ -74,7 +77,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    implementation 'androidx.core:core:1.12.0'  // or latest version
-    
+    implementation 'androidx.core:core:1.12.0'
 }
-
